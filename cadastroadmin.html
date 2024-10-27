@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cadastro do Administrador</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <h1>Cadastro do Administrador</h1>
+    <form id="cadastroAdminForm">
+        <label for="adminUser">Usuário:</label>
+        <input type="text" id="adminUser" name="adminUser" required>
+        
+        <label for="adminPassword">Senha:</label>
+        <input type="password" id="adminPassword" name="adminPassword" required>
+
+        <button type="submit">Cadastrar</button>
+    </form>
+
+    <script>
+        const cadastroAdminForm = document.getElementById("cadastroAdminForm");
+
+        cadastroAdminForm.addEventListener("submit", function(event) {
+            event.preventDefault();
+
+            const adminUser = document.getElementById("adminUser").value;
+            const adminPassword = document.getElementById("adminPassword").value;
+
+            fetch("https://sistemaconcurso-918a.restdb.io/rest/admins?max=2", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    "x-apikey": "01914d584aa9f458015e91c7ffe26d1db0f2c",
+                    "cache-control": "no-cache"
+                },
+                body: JSON.stringify({
+                    username: adminUser,
+                    password: adminPassword
+                })
+            })
+            .then(response => response.json())
+            .then(data => {
+                alert("Administrador cadastrado com sucesso!");
+                cadastroAdminForm.reset();
+            })
+            .catch(error => {
+                console.error("Erro:", error);
+                alert("Erro ao cadastrar o administrador.");
+            });
+        });
+    </script>
+</body>
+</html>
